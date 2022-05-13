@@ -66,27 +66,26 @@ class Scraper:
             for index, participant in enumerate(match_dto.info.participants):
                 summoner_id = participant.summonerId
 
-                if (match_id, summoner_id) in self.done_participants:
-                    continue
-
                 now = datetime.datetime.now()
                 start_of_week = (
                     now - datetime.timedelta(days=now.weekday())
                 ).date()
-                if (summoner_id, start_of_week) in self.done_players:
-                    continue
 
-                league_dtos = self.api.get_lol_league_by_summoner_id(
-                    summoner_id
-                )
-                for league_dto in league_dtos:
-                    player = Player.from_league(
-                        participant.puuid,
-                        league_dto,
-                        now
+                if (summoner_id, start_of_week) not in self.done_players:
+                    league_dtos = self.api.get_lol_league_by_summoner_id(
+                        summoner_id
                     )
-                    player.write_to_csv(self.players_file)
-                    self.done_players.add((summoner_id, start_of_week))
+                    for league_dto in league_dtos:
+                        player = Player.from_league(
+                            participant.puuid,
+                            league_dto,
+                            now
+                        )
+                        player.write_to_csv(self.players_file)
+                        self.done_players.add((summoner_id, start_of_week))
+
+                if (match_id, summoner_id) in self.done_participants:
+                    continue
 
                 game_participant = GameParticipant.from_participant(
                     match_dto, index, participant
