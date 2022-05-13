@@ -131,3 +131,9 @@ dmypy.json
 
 # PyCharm stuff
 .idea/
+
+
+# Project output files
+./data/games.csv
+./data/participants.csv
+./data/players.csv
