@@ -65,7 +65,6 @@ data <- solo_queue_games %>%
 library(caret)
 library(rpart)
 library(rattle)
-library(randomForest)
 set.seed(123)
 size <- floor(0.8 * nrow(data))
 train_indices <- sample(seq_len(nrow(data)), size=size)
@@ -89,8 +88,13 @@ varImp(rf)
 pred <- predict.train(rf, test_data)
 confusionMatrix(table(pred, test_data$blue_side_win))
 
-# TODO: Gradient Boosting
+# Gradient Boosting
+gb <- train(blue_side_win ~ ., data=train_data, method='gbm')
+pred <- predict.train(gb, test_data)
+confusionMatrix(table(pred, test_data$blue_side_win))
 
-# TODO: Naive Bayes
-
+# Naive Bayes
+nb <- train(blue_side_win ~ ., data=train_data, method='nb')
+pred <- predict.train(nb, test_data)
+confusionMatrix(table(pred, test_data$blue_side_win))
 
