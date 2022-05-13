@@ -1,10 +1,10 @@
 library(tidyverse)
 library(readr)
 
-games <- read_csv("C:/Users/jackb/OneDrive/Programming/riotAnalysis/data/games.csv")
-participants <- read_csv("C:/Users/jackb/OneDrive/Programming/riotAnalysis/data/participants.csv")
-players <- read_csv("C:/Users/jackb/OneDrive/Programming/riotAnalysis/data/players.csv")
-queue_mappings <- read_csv("C:/Users/jackb/OneDrive/Programming/riotAnalysis/data/queue_mappings.csv")
+games <- read_csv("data/games.csv")
+participants <- read_csv("data/participants.csv")
+players <- read_csv("data/players.csv")
+queue_mappings <- read_csv("data/queue_mappings.csv")
 
 players <- players %>% merge(queue_mappings)
 games <- games %>% rename(game_id=id)
