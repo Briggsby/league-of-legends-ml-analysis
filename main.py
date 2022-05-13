@@ -14,7 +14,7 @@ games_csv = 'data/games.csv'
 participants_csv = 'data/participants.csv'
 players_csv = 'data/players.csv'
 
-start_date = datetime.datetime(2022, 5, 1, 0, 0, 0)
+start_date = datetime.datetime(2022, 5, 11, 0, 0, 0)
 queue_id = QueueIds.RANKED_SOLO.value
 
 

@@ -41,6 +41,7 @@ class GameParticipant(DataModel):
     blue_side: bool
     win: bool
 
+    index: int
     puuid: str
     kills: int
     deaths: int
@@ -65,7 +66,9 @@ class GameParticipant(DataModel):
     turrets_lost: int
 
     @classmethod
-    def from_participant(cls, match: MatchDto, participant: ParticipantDto):
+    def from_participant(
+            cls, match: MatchDto, index: int, participant: ParticipantDto
+    ):
         return cls(
             game_id=match.metadata.matchId,
             summoner_id=participant.summonerId,
@@ -73,6 +76,7 @@ class GameParticipant(DataModel):
             blue_side=participant.teamId == 100,
             win=participant.win,
 
+            index=index,
             puuid=participant.puuid,
             kills=participant.kills,
             deaths=participant.deaths,

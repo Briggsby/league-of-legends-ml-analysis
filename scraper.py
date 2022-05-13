@@ -36,7 +36,7 @@ class Scraper:
 
     def get_done_participants(self):
         participants = pd.read_csv(self.participants_file)
-        participants = participants[["game_id", "summoner_id"]]
+        participants = participants[["game_id", "index"]]
         return set(participants.itertuples(index=False))
 
     def get_done_players(self):
@@ -63,7 +63,7 @@ class Scraper:
 
             match_dto = self.api.get_lol_match(match_id)
             game = Game.from_match(match_dto)
-            for participant in match_dto.info.participants:
+            for index, participant in enumerate(match_dto.info.participants):
                 summoner_id = participant.summonerId
 
                 if (match_id, summoner_id) in self.done_participants:
@@ -89,10 +89,10 @@ class Scraper:
                     self.done_players.add((summoner_id, start_of_week))
 
                 game_participant = GameParticipant.from_participant(
-                    match_dto, participant
+                    match_dto, index, participant
                 )
                 game_participant.write_to_csv(self.participants_file)
-                self.done_participants.add((match_id, summoner_id))
+                self.done_participants.add((match_id, index))
 
                 if (
                         game_participant.puuid not in self.done_puuids
