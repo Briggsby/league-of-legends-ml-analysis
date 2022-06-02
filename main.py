@@ -8,13 +8,16 @@ from riot_api.api import Api
 from scraper import Scraper
 
 token = os.getenv("RIOT_API_TOKEN")
-start_puuid = "uY7OclrYLNVoEr3DfYrta1E4EQrFNp4tSrD-e9xMUecHfSB_LTBsBryvSW8fa5wcZSjd1Qog9RsoKA"
+start_puuids = [
+    "wHSXXSK8JFN4TdVNrkiN7eS6c3UoVpHdTAj4syqMg042iJqLb7SjPGLMgtXhPg_ggipR9HREI9dzQA",  # Briggsby 12.10
+    "34_1PwmUyGJJVzyVNLT8X_kFuo_sg0LUbLBlis-B10tP-Vv8vbaTJDDzxdVIlVU9OmZP2oMuysAK9g",  # SunnyPolarBear 12.10
+]
 
 games_csv = 'data/games.csv'
 participants_csv = 'data/participants.csv'
 players_csv = 'data/players.csv'
 
-start_date = datetime.datetime(2022, 5, 11, 0, 0, 0)
+start_date = datetime.datetime(2022, 5, 26, 0, 0, 0)
 queue_id = QueueIds.RANKED_SOLO.value
 
 
@@ -31,7 +34,7 @@ def get_start_puuids(number_puuids: int):
 
 
 api = Api(riot_token=token)
-scraper = Scraper(api, get_start_puuids(5) or [start_puuid])
+scraper = Scraper(api, get_start_puuids(5) or start_puuids)
 while True:
     puuids = list(scraper.puuids_to_do)
     for puuid in puuids:
